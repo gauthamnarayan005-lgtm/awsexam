@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student App</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1, h2 { text-align: center; color: #333; }
+        form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; }
+        input[type="text"], input[type="email"] { padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 10px; border: none; background: #28a745; color: white; cursor: pointer; border-radius: 4px; }
+        button:hover { background: #218838; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+        th { background: #007bff; color: white; }
+        .btn-delete { background: #dc3545; color: white; border: none; cursor: pointer; padding: 5px 10px; border-radius: 3px; }
+        .btn-delete:hover { background: #c82333; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Management App</h1>
+        
+        <h2>Add Student</h2>
+        <form action="/add" method="POST">
+            <input type="text" name="name" placeholder="Student Name" required>
+            <input type="email" name="email" placeholder="Student Email" required>
+            <input type="text" name="course" placeholder="Course Name" required>
+            <button type="submit">Add Student</button>
+        </form>
+
+        <h2>Student List</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Course</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(students && students.length > 0) { %>
+                    <% students.forEach(function(student) { %>
+                        <tr>
+                            <td><%= student.id %></td>
+                            <td><%= student.name %></td>
+                            <td><%= student.email %></td>
+                            <td><%= student.course %></td>
+                            <td>
+                                <form action="/delete/<%= student.id %>" method="POST" style="display:inline; margin:0;">
+                                    <button type="submit" class="btn-delete">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }); %>
+                <% } else { %>
+                    <tr><td colspan="5" style="text-align: center;">No students found.</td></tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
